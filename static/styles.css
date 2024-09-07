@@ -1,0 +1,343 @@
+/* Style global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f4f4f9;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Container principal */
+.container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 10px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+
+/* Style pour les labels des boutons radio */
+.radio-label {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="radio"] {
+    display: none; /* Masquer les boutons radio natifs */
+}
+
+/* Style pour les cases Oui */
+input[type="radio"]:checked + .radio-label {
+    background-color: #000000; /* Vert pour Oui */
+}
+
+/* Style pour les cases Non */
+input[type="radio"]:not(:checked) + .radio-labelnot {
+    background-color: #fff; /* Rouge pour Non */
+}
+
+/* Bouton */
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Overlay sombre pour obscurcir l'arrière-plan */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Arrière-plan sombre avec opacité */
+    z-index: 999;
+}
+
+/* Style pour la popup de validation */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
+    z-index: 1000; /* Au-dessus de l'overlay */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Ajout d'une ombre pour l'effet 3D */
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup-content p {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.popup-content label {
+    margin: 10px;
+}
+
+.popup-content button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.popup-content button:hover {
+    background-color: #0056b3;
+}
+
+input[type="radio"] {
+    width: auto; /* Assurer que la taille est appropriée */
+    display: inline-block;
+}
+
+label {
+    display: inline-block;
+    margin: 5px;
+}
+
+/* Style du contenu de la popup */
+.popup-content {
+    padding: 10px;  /* Réduire les marges internes */
+    background-color: white;
+    border-radius: 10px;
+    width: 90%;  /* Augmenter la largeur du popup */
+    margin: 0 auto;
+    overflow: auto;
+    max-height: 85vh; /* Augmenter la hauteur maximale pour occuper plus d'espace */
+}
+
+.popup-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px; /* Réduire la marge entre les tableaux */
+}
+
+.popup-content th, .popup-content td {
+    padding: 8px;  /* Réduire l'espacement des cellules */
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 16px;  /* Augmenter légèrement la taille du texte */
+}
+
+.popup-content th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    width: 30%;  /* Garder une bonne proportion pour les questions */
+}
+
+.popup-content td {
+    vertical-align: middle;
+    width: 70%;  /* Donner plus d'espace aux réponses */
+}
+
+.popup-content label {
+    margin-left: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Masquer les bordures pour la table de qualification */
+.table-qualification {
+    border-collapse: collapse;
+    border: none;  /* Pas de bordure */
+}
+
+.table-qualification th, .table-qualification tr td, .table-qualification tr , .table-qualification label {
+    border: none;  /* Pas de bordure */
+    background-color: #fff;
+}
+/* Table de validation dans la popup */
+.popup-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.popup-content th, .popup-content td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+}
+
+/* Réduire la largeur des colonnes ID */
+.popup-content .id-column {
+    width: 10%; /* Réduire la colonne des IDs à 10% */
+    text-align: center;
+    white-space: nowrap;
+}
+
+.popup-content .validation-column {
+    width: 70%; /* Utiliser 70% de l'espace pour les questions de validation */
+    word-wrap: break-word; /* Forcer le texte à passer à la ligne si nécessaire */
+}
+
+.popup-content .response-column {
+    width: 20%; /* Réduire la colonne des réponses à 20% */
+    text-align: center;
+}
+
+/* Forcer la largeur des colonnes */
+.popup-content table {
+    table-layout: fixed; /* Forcer la taille fixe des colonnes */
+}
+
+.popup-content label {
+    margin-left: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+/* Style général pour le conteneur du résumé */
+#pointsBloquantsContainer {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table des points bloquants */
+.resume-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.resume-table caption {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #007BFF;
+    text-align: left;
+}
+
+.resume-table th, .resume-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.resume-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.resume-table td {
+    background-color: #fff;
+}
+
+.resume-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}

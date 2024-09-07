@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire de Qualification</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<!-- index.html -->
+<div class="container">
+    <header>
+        <h1>Questionnaire de Qualification</h1>
+        <p>Merci de répondre aux questions ci-dessous.</p>
+    </header>
+
+    <!-- Formulaire avec table pour les questions -->
+    <form id="qualificationForm">
+        <table id="questionsTable">
+            <!-- Le contenu sera inséré ici dynamiquement par le script JS -->
+        </table>
+    </form>
+
+    <!-- Conteneur pour le résumé des points bloquants -->
+    <h1 style="margin-top: 70px;">
+        Résumé des validations échouées et des points bloquants résultant des réponses aux questions de qualification
+    </h1>
+    
+    <div id="pointsBloquantsContainer">
+    </div>
+</div>
+
+
+    <!-- Inclure le script JavaScript -->
+    <script src="/static/script.js" defer></script>
+</body>
+</html>
