@@ -87,7 +87,11 @@
         printWindow.focus();
     
         // Lancer l'impression dans la nouvelle fenêtre
+        // ATTendre que le document soit chargé avant d'imprimer
+        printWindow.onload = function() {
+            
         printWindow.print();
+        };
     
         // Fermer la fenêtre après l'impression
         printWindow.onafterprint = function () {
