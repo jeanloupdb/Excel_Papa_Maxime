@@ -341,3 +341,194 @@ button:hover {
 .resume-table tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
+/* CSS pour les sections */
+.section-title {
+    cursor: pointer;
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+/* Animation des tableaux déroulants */
+.section-table {
+    overflow: hidden;
+    height: 0; /* Hauteur initiale à 0 */
+    opacity: 0;
+    transition: height 0.5s ease, opacity 0.5s ease;
+    display: none; /* Par défaut, le tableau est caché */
+}
+
+/* Quand le tableau est déroulé */
+.section-table.expanded {
+    display: table; /* Afficher le tableau quand il est déroulé */
+    height: auto; /* Ajuster la hauteur automatiquement */
+    opacity: 1; /* Rendre le tableau visible */
+}
+
+
+body > header {
+    margin-bottom: 20px;
+
+}
+/* Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styles pour le body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* Header global */
+header nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #2b4246;
+    padding: 15px 30px;
+    height: 80px; /* Hauteur fixe pour le header */
+    width: 100%;
+    position: fixed; /* Pour qu'il reste en haut de la page */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre pour un effet */
+}
+
+/* Style pour l'image dans le header */
+header nav img {
+    height: 100%; /* Prend toute la hauteur du header */
+    max-height: 80px; /* Limite la hauteur de l'image pour ne pas dépasser */
+}
+
+/* Style pour la navigation */
+header nav ul {
+    list-style-type: none;
+    display: flex;
+    margin-right: 20px;
+}
+
+header nav ul li {
+    margin-left: 30px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 16px;
+    transition: background-color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    background-color: #1f3134; /* Changement de couleur au hover */
+    border-radius: 5px;
+}
+
+/* Bouton menu hamburger */
+.menu-toggle {
+    display: none; /* Masqué par défaut */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 22px;
+    cursor: pointer;
+}
+
+.menu-toggle .bar {
+    height: 3px;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+
+/* Ajustement du contenu principal pour ne pas être caché derrière le header */
+.container {
+    margin-top: 100px; /* Crée un espace au-dessus pour compenser la hauteur du header */
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}   
+
+/* Ajustement du menu pour les petits écrans */
+@media (max-width: 768px) {
+
+    .container {
+        width: 95%;
+    }
+
+    .section-container {
+        width: 100%;
+    }
+    .menu-toggle {
+        display: flex; /* Affiche l'icône du menu hamburger */
+    }
+
+    header nav ul {
+        display: none; /* Cacher la liste par défaut */
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%; /* Met la largeur à 100% pour couvrir toute la page */
+        background-color: #2b4246;
+        padding: 10px;
+        z-index: 999; /* S'assure que le menu est au-dessus des autres éléments */
+    }
+
+    header nav ul.active {
+        display: flex; /* Affiche la liste lorsque la classe active est présente */
+    }
+
+    header nav ul li {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    header nav ul li a {
+        font-size: 20px;
+        width: 100%;
+        padding: 15px;
+        color: white; /* S'assure que le texte du menu est bien visible */
+        text-decoration: none;
+    }
+}
+
+
+/* Style pour le logo d'impression */
+#printLogo {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 40px; /* Ajuster la taille du logo */
+    height: 40px;
+}
+/* Style pour le logo d'impression */
+#printLogo {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    width: 40px; /* Ajuste la taille du logo */
+    height: 40px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Effet hover pour le logo d'impression */
+#printLogo:hover {
+    transform: scale(1.2); /* Agrandir légèrement l'icône au survol */
+    opacity: 0.8; /* Réduire un peu l'opacité pour un effet de survol */
+    cursor: pointer; /* Change le curseur en pointeur pour indiquer que c'est cliquable */
+}

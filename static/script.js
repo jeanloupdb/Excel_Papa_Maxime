@@ -4,99 +4,135 @@ let popupOpen = false; // Flag pour suivre si un popup est déjà ouvert
 let pointsBloquantsDefinitifs = [];
 let pointsBloquantsSiNon = [];
 let pointsValidation = []; // Pour les validations qui ne sont pas des points bloquants
-
 // Charger les questions depuis l'API Flask
 fetch('/questions')
     .then(response => response.json())
     .then(data => {
         questionsQualification = data.qualification; // Assigner les questions de qualification globalement
         questionsValidation = data.validation; // Assigner les questions de validation globalement
-
-        // Générer le questionnaire de qualification
+        console.log('Questions de qualification:', questionsQualification);
+        // Générer le questionnaire de qualification, groupé par sections
         generateQualificationTable(questionsQualification, questionsValidation);
     })
     .catch(error => console.error('Erreur lors du chargement des questions:', error));
 
-// Générer le tableau du formulaire de qualification
-function generateQualificationTable(questionsQualification, questionsValidation) {
-    const table = document.getElementById('questionsTable');
+    function generateQualificationTable(questionsQualification, questionsValidation) {
+        const table = document.getElementById('questionsTable');
+        
+        table.innerHTML = ''; // Vider le tableau avant de le remplir
     
-    table.innerHTML = ''; // Vider le tableau avant de le remplir
+        const groupedQuestions = groupBySection(questionsQualification);
+    
+        // Créer les sections avec les questions
+        Object.keys(groupedQuestions).forEach(section => {
+            // Créer un conteneur pour chaque section
+            const sectionContainer = document.createElement('div');
+            sectionContainer.classList.add('section-container');
+    
+            // Créer un en-tête pour chaque section
+            const sectionHeader = document.createElement('h3');
+            sectionHeader.innerText = section;
+            sectionHeader.classList.add('section-title');
+            sectionContainer.appendChild(sectionHeader);
+    
+            // Créer un tableau pour les questions de cette section
+            const sectionTable = document.createElement('table');
+            sectionTable.classList.add('section-table');  // Ajoutez une classe CSS pour personnaliser l'apparence
+    
+            const tbody = document.createElement('tbody');
+    
+            // Ajouter l'en-tête avec "ID", "Questions", "Oui", et "Non"
+            const headerRow = document.createElement('tr');
+            const headerQuestionId = document.createElement('th');
+            const headerQuestion = document.createElement('th');
+            const headerOui = document.createElement('th');
+            const headerNon = document.createElement('th');
+    
+            headerQuestionId.innerText = 'ID';
+            headerQuestion.innerText = 'Questions';
+            headerOui.innerText = 'Oui';
+            headerNon.innerText = 'Non';
+    
+            headerRow.appendChild(headerQuestionId);
+            headerRow.appendChild(headerQuestion);
+            headerRow.appendChild(headerOui);
+            headerRow.appendChild(headerNon);
+            tbody.appendChild(headerRow);
+    
+            // Ajouter les questions à cette section
+            groupedQuestions[section].forEach(question => {
+                const row = document.createElement('tr');
+    
+                // Colonne pour l'ID de la question
+                const tdId = document.createElement('td');
+                tdId.innerText = question.id; // Affiche l'ID de la question
+                row.appendChild(tdId);
+    
+                // Colonne pour la question
+                const tdQuestion = document.createElement('td');
+                tdQuestion.innerText = question.question;
+                row.appendChild(tdQuestion);
+    
+                // Colonne des options Oui
+                const tdOui = document.createElement('td');
+                const yesOption = document.createElement('input');
+                yesOption.type = 'radio';
+                yesOption.name = `question_${question.id}`;
+                yesOption.value = 'yes';
+                yesOption.id = `yes_${question.id}`;
+    
+                // Gérer les changements sur le bouton Oui
+                yesOption.addEventListener('change', () => handleYesSelection(question.id, questionsValidation));
+    
+                tdOui.appendChild(yesOption);
+                row.appendChild(tdOui);
+    
+                // Colonne des options Non
+                const tdNon = document.createElement('td');
+                const noOption = document.createElement('input');
+                noOption.type = 'radio';
+                noOption.name = `question_${question.id}`;
+                noOption.value = 'no';
+                noOption.id = `no_${question.id}`;
+    
+                if (question.response === 'no') {
+                    noOption.checked = true;  // Par défaut, "Non" est sélectionné
+                } else if (question.response === 'yes') {
+                    yesOption.checked = true;  // Par défaut, "Oui" est sélectionné
+                }
+    
+                // Gérer les changements sur le bouton Non
+                noOption.addEventListener('change', () => handleNoSelection(question.id, questionsValidation));
+    
+                tdNon.appendChild(noOption);
+                row.appendChild(tdNon);
+    
+                tbody.appendChild(row);
+            });
+    
+            sectionTable.appendChild(tbody);
+            sectionContainer.appendChild(sectionTable);
+            table.appendChild(sectionContainer);
+    
+            // Ajouter l'événement de clic pour dérouler ou replier la section
+            sectionHeader.addEventListener('click', () => {
+                sectionTable.classList.toggle('expanded');
+            });
+        });
+    }
+    
 
-    // Créer le corps du tableau
-    const tbody = document.createElement('tbody');
 
-    // Ajouter l'en-tête avec "Questions", "Oui", et "Non"
-    const headerRow = document.createElement('tr');
-    const headerQuestionId = document.createElement('th');
-    const headerQuestion = document.createElement('th');
-    const headerOui = document.createElement('th');
-    const headerNon = document.createElement('th');
-
-    headerQuestionId.innerText = 'ID';
-    headerQuestion.innerText = 'Questions';
-    headerOui.innerText = 'Oui';
-    headerNon.innerText = 'Non';
-
-    headerRow.appendChild(headerQuestionId);
-    headerRow.appendChild(headerQuestion);
-    headerRow.appendChild(headerOui);
-    headerRow.appendChild(headerNon);
-    tbody.appendChild(headerRow);
-
-    // Créer les lignes pour chaque question de qualification
-    questionsQualification.forEach(question => {
-        const row = document.createElement('tr');
-
-        // Colonne pour l'ID de la question
-        const tdId = document.createElement('td');
-        tdId.innerText = question.id; // Affiche l'ID de la question
-        row.appendChild(tdId);
-
-        // Colonne pour la question
-        const tdQuestion = document.createElement('td');
-        tdQuestion.innerText = question.question;
-        row.appendChild(tdQuestion);
-
-        // Colonne des options Oui
-        const tdOui = document.createElement('td');
-        const yesOption = document.createElement('input');
-        yesOption.type = 'radio';
-        yesOption.name = `question_${question.id}`;
-        yesOption.value = 'yes';
-        yesOption.id = `yes_${question.id}`;
-
-        // Gérer les changements sur le bouton Oui
-        yesOption.addEventListener('change', () => handleYesSelection(question.id, questionsValidation));
-
-        tdOui.appendChild(yesOption);
-        row.appendChild(tdOui);
-
-        // Colonne des options Non
-        const tdNon = document.createElement('td');
-        const noOption = document.createElement('input');
-        noOption.type = 'radio';
-        noOption.name = `question_${question.id}`;
-        noOption.value = 'no';
-        noOption.id = `no_${question.id}`;
-
-        if (question.response === 'no') {
-            noOption.checked = true;  // Par défaut, "Non" est sélectionné
+// Fonction pour regrouper les questions par section
+function groupBySection(questions) {
+    return questions.reduce((acc, question) => {
+        const section = question.section || 'Sans Section';  // Utiliser 'Sans Section' si aucune section n'est définie
+        if (!acc[section]) {
+            acc[section] = [];
         }
-        else if (question.response === 'yes') {
-            yesOption.checked = true;  // Par défaut, "Oui" est sélectionné
-        }
-
-        // Gérer les changements sur le bouton Non
-        noOption.addEventListener('change', () => handleNoSelection(question.id, questionsValidation));
-
-        tdNon.appendChild(noOption);
-        row.appendChild(tdNon);
-
-        tbody.appendChild(row);
-    });
-
-    table.appendChild(tbody);
+        acc[section].push(question);
+        return acc;
+    }, {});
 }
 
 

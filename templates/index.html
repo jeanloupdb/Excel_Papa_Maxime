@@ -7,31 +7,99 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-<!-- index.html -->
+
+<header>
+    <nav>
+        <img src="static/mobalpa.png" alt="Mobalpa">
+        <div class="menu-toggle" id="mobile-menu">
+            <!-- Icone à 3 traits pour le menu -->
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <ul class="nav-list">
+            <li><a href="#qualificationForm">Questionnaire de Qualification</a></li>
+            <li><a href="#pointsBloquantsContainer">Résumé</a></li>
+        </ul>
+    </nav>
+</header>
+<br><br><br>
+
 <div class="container">
     <header>
         <h1>Questionnaire de Qualification</h1>
         <p>Merci de répondre aux questions ci-dessous.</p>
     </header>
 
-    <!-- Formulaire avec table pour les questions -->
+    <!-- Formulaire avec menus déroulants pour les questions -->
     <form id="qualificationForm">
-        <table id="questionsTable">
+        <div id="questionsTable">
             <!-- Le contenu sera inséré ici dynamiquement par le script JS -->
-        </table>
+        </div>
     </form>
 
-    <!-- Conteneur pour le résumé des points bloquants -->
-    <h1 style="margin-top: 70px;">
-        Résumé des validations échouées et des points bloquants résultant des réponses aux questions de qualification
-    </h1>
     
+</div>
+<div class="container">
+    <!-- Conteneur pour le résumé des points bloquants -->
+    <div style="position: relative;">
+        <h1 style="text-align: center;">Résumé</h1>
+        <!-- Logo d'impression en haut à droite -->
+        <img id="printLogo" src="static/print.png" alt="Imprimer" style="cursor: pointer;">
+    </div>
     <div id="pointsBloquantsContainer">
+        <p style="color: red;">Tout est en ordre</p>
     </div>
 </div>
 
 
-    <!-- Inclure le script JavaScript -->
-    <script src="/static/script.js" defer></script>
+
+
+<script src="/static/script.js" defer></script>
+<script>
+    // JavaScript pour ouvrir/fermer le menu mobile
+    document.getElementById('mobile-menu').addEventListener('click', function() {
+        const navList = document.querySelector('.nav-list');
+        navList.classList.toggle('active'); // Ajoute ou enlève la classe active
+    });
+</script>
+<script>
+    // Fonction pour imprimer le résumé
+    function printSummary() {
+        const printContents = document.getElementById('pointsBloquantsContainer').innerHTML;
+    
+        // Créer une nouvelle fenêtre pour l'impression
+        const printWindow = window.open('', '', 'height=650,width=900');
+        
+        // Ajouter le contenu HTML pour la nouvelle fenêtre
+        printWindow.document.write('<html><head><title>Résumé</title>');
+        
+        // Ajouter le lien vers le fichier CSS
+        printWindow.document.write('<link rel="stylesheet" href="/static/styles.css" type="text/css"/>');
+        
+        printWindow.document.write('</head><body>');
+        printWindow.document.write('<h1 style="text-align: center;">Résumé</h1>'); // Ajouter le titre
+        printWindow.document.write(printContents); // Ajouter le contenu à imprimer
+        printWindow.document.write('</body></html>');
+    
+        // Attendre que la fenêtre soit complètement chargée avant d'imprimer
+        printWindow.document.close();
+        printWindow.focus();
+    
+        // Lancer l'impression dans la nouvelle fenêtre
+        printWindow.print();
+    
+        // Fermer la fenêtre après l'impression
+        printWindow.onafterprint = function () {
+            printWindow.close();
+        };
+    }
+    // Activer l'impression via le logo d'impression
+    document.getElementById('printLogo').addEventListener('click', printSummary);
+</script>
+
+
 </body>
 </html>
+
+

@@ -39,18 +39,25 @@ def load_questions():
         qualification_list = []
         validation_list = []
 
+        # Variable pour stocker la section actuelle
+        current_section = "Sans Section"
         # Lire les questions de qualification
         for _, row in questions_qualification.iterrows():
-            if pd.notna(row['CODES']) and pd.notna(row['Items de Contrôle']):
+            # Si la ligne contient une section, la définir comme section actuelle
+            if pd.notna(row['Section']):
+                current_section = row['Section']
+                print(f"Section actuelle : {current_section}")
+            elif pd.notna(row['CODES']) and pd.notna(row['Items de Contrôle']):
                 qualification_list.append({
                     'id': int(row['CODES']) if pd.notna(row['CODES']) else None,  # Convertir en int si non NaN
                     'question': row['Items de Contrôle'] if pd.notna(row['Items de Contrôle']) else None,
+                    'section': current_section,  # Assigner la section courante à cette question
                     'complexite': row['Complexité'] if pd.notna(row['Complexité']) else None,
                     'response': 'no'  # Par défaut, la réponse est non
                 })
 
         # Générer un compteur pour les IDs manquants
-        generated_id = len(questions_validation)  # Commencer après le nombre de validations déjà présentes
+        generated_id = len(questions_validation)  # Initialiser à partir du nombre de validations déjà présentes
 
         # Lire les questions de validation
         for _, row in questions_validation.iterrows():
@@ -68,7 +75,7 @@ def load_questions():
                     'point_bloquant_tous_cas': row['Point Bloquant.\nCR a réaliser dans tous les cas'] if pd.notna(row['Point Bloquant.\nCR a réaliser dans tous les cas']) else None,
                     'response': None  # Par défaut, aucune réponse n'est préremplie
                 })
-
+        print(f"Chargement des questions réussi : {len(qualification_list)} questions de qualification et {len(validation_list)} questions de validation")
         return qualification_list, validation_list
     except Exception as e:
         print("Erreur lors du chargement des questions depuis Excel :")
